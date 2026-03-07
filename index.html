@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PahadiKart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="utility.css">
+</head>
+
+<body>
+    <div class="main">
+
+        <div class="Head">
+            <div class="container">
+
+                <div class="head_fir auto mar">
+                    <div id="logo">
+                        <img id="india" src="india.png">
+                        <h2 class="brwn">NeoBharat</h2>
+                    </div>
+                    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <div class="svg brwn">
+                        <img class="img" src="src.svg">
+                        <input class="src rmbd" type="search"
+                            placeholder="   Search for authentic handmade products....">
+                    </div>
+                </div>
+
+                <nav class="mobile-nav" id="mobileNav">
+                    <a href="">All products</a>
+                    <a href="">Handicrafts</a>
+                    <a href="">Organic Foods</a>
+                    <a href="">
+                        <div class="cart-icon-wrapper">
+                            <img src="cart.svg">
+                            <span>Cart</span>
+                        </div>
+                    </a> <button>
+                        <img src="admin.svg">
+                        <h3>Login</h3>
+                    </button>
+                </nav>
+
+                <div class="head_sec auto mar">
+                    <a href="" class="nav-filter" data-category="all">All products</a>
+                    <a href="" class="nav-filter" data-category="handicraft">Handicrafts</a>
+                    <a href="" class="nav-filter" data-category="organic">Organic Foods</a>
+                    <div class="cart-icon-wrapper">
+                        <img src="cart.svg">
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </div>
+                    <button>
+                        <img src="admin.svg">
+                        <h3>Login</h3>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bd">
+            <div class="cart">
+                <div class="box1">
+                    <h2 class="txt font"><b>Authentic Handmade Products from the Hills.</b></h2>
+                    <h2 class="txt font"><b>Discover unique handicraft, organic food, and traditional clothing crafted
+                            by skilled artisans.</b></h2>
+                </div>
+                <div class="box2">
+                    <button id="but" class="auto"><b>Shop Now</b><img src="right_arrow.svg"></button>
+                    <button id="but"><b>Explore Crafts</b></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="boody brwn fade-in">
+            <div class="boody1">
+                <h1>Shop by Category</h1>
+                <p class="brwn">Explore our curated collection of authentic products from local artisans</p>
+            </div>
+
+            <!-- <img class="left" src="left.svg">
+            <img class="right" src="rigth.svg"> -->
+
+            <div class="boody2">
+                <div class="bdbox mar">
+                    <button>
+                        <img class="image" src="handicrafts.png">
+                        <h2>Handicraft</h2>
+                    </button>
+                    <button>
+                        <img class="image" src="icons8-wheat-48.png">
+                        <h2>Organic Foods</h2>
+                    </button>
+                    <button>
+                        <img class="image" src="brand.png">
+                        <h2>Traditional Clothing</h2>
+                    </button>
+                    <button>
+                        <img class="image" src="shelf.png">
+                        <h2>Home Decor</h2>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="boody3 fade-in">
+            <div class="info">
+                <div>
+                    <h1>Best Sellers</h1>
+                    <p class="lb">Most loved by our customers</p>
+                </div>
+                <button>
+                    <h3>View All</h3>
+                    <img src="right_arrow.svg">
+                </button>
+            </div>
+
+            <div class="card_" id="cardContainer"></div>
+        </div>
+
+        <footer>
+
+            <div class="foot1 fade-in">
+                <div class="context">
+                    <h1>Supporting Artisan Communities</h1>
+                    <p class="brwn">Every product you purchase directly supports skilled artisans and their families. We
+                        work with craftspeople from remote mountain villages, helping preserve traditional techniques
+                        while providing sustainable livelihoods.</p>
+                    <p class="brwn">From handwoven textiles to organic honey harvested at high altitudes, each item
+                        tells a unique story of craftsmanship, culture, and dedication.</p>
+                    <button class ="context button">
+                        <b>Explore Our Collection</b>
+                        <img src="right_arrow.svg">
+                    </button>
+                </div>
+                <div class="old"></div>
+            </div>
+
+            <div class="foot2 fade-in">
+                <div class="b1">
+                    <img class="img_" src="Authentic.svg">
+                    <h2>Authentic Products</h2>
+                    <p>100% genuine handmade items</p>
+                </div>
+                <div class="b2">
+                    <img class="img_" src="truck.svg">
+                    <h2>Free Shipping</h2>
+                    <p>On orders above 999</p>
+                </div>
+                <div class="b3">
+                    <img class="img_" src="shield.svg">
+                    <h2>Secure Payment</h2>
+                    <p>Safe &amp; encrypted transactions</p>
+                </div>
+                <div class="b4">
+                    <img class="img_" src="heart.svg">
+                    <h2>Support Artisans</h2>
+                    <p>Fair prices for craftspeople</p>
+                </div>
+            </div>
+
+            <div class="foot3"></div>
+
+            <div class="foot4">
+                <h2 class="white">Stay Connected</h2>
+                <p>Subscribe to our newsletter for exclusive offers and artisan stories</p>
+                <span class="foot4-span">
+                    <input id="f4" type="search" placeholder="Enter your Email">
+                    <button class="subscribeBtn">Subscribe</button>
+                </span>
+            </div>
+
+            <div class="foot5">
+                <div class="foot5main">
+                    <span class="linehig">
+                        <h2>About PahadiKart</h2>
+                        <p class="lb">Bringing authentic handmade products from the hills directly to your doorstep.
+                            Supporting local artisans and preserving traditional crafts.</p>
+                        <div class="social-links">
+                            <a href=" "><img src="fb.svg"></a>
+                            <a href=" "><img src="ig.svg"></a>
+                            <a href=" "><img src="twit.svg"></a>
+                        </div>
+                    </span>
+
+                    <div class="flex quick linehig">
+                        <h2>Quick Links</h2>
+                        <a href="">Shop All Products</a>
+                        <a href="">HandiCraft</a>
+                        <a href="">Organic Foods</a>
+                        <a href="">Traditional Clothing</a>
+                        <a href="">Home Decor</a>
+                    </div>
+
+                    <div class="flex customer linehig">
+                        <h2>Customer Service</h2>
+                        <a href="">Track Order</a>
+                        <a href="">Shipping Policy</a>
+                        <a href="">Return &amp; Exchange</a>
+                        <a href="">FAQs</a>
+                        <a href="">Privacy Policy</a>
+                    </div>
+
+                    <div class="flex contact linehig">
+                        <h2>Contact Us</h2>
+                        <div class="cu1 flex_">
+                            <img src="loc.svg">
+                            <a href="">123 Hill View Road, Dehradun, Uttarakhand 248001</a>
+                        </div>
+                        <div class="cu2 flex_">
+                            <img src="call.svg">
+                            <p class="lb">+91 98765 43210</p>
+                        </div>
+                        <div class="cu3 flex_">
+                            <img src="mail.svg">
+                            <a href="">support@pahadiKart.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="flex line mtop linehig">
+                    <div class="li"></div>
+                </div>
+                <div class="flex">
+                    <p class="lb">© 2026 PahadiKart. All rights reserved. Made with ❤️ for artisans.</p>
+                </div>
+            </div>
+
+        </footer>
+
+    </div>
+    <div class="toast" id="toast">
+        ✅ Added to cart!
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="login-modal" id="loginModal">
+        <button class="modal-close" id="modalClose">✕</button>
+
+        <div class="modal-logo">
+            <img src="india.png">
+            <h2>NeoBharat</h2>
+        </div>
+
+        <h3>Welcome Back!</h3>
+        <p class="modal-sub">Login to your account</p>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email" id="emailInput">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password" id="passInput">
+        </div>
+
+        <button class="login-btn" id="loginBtn">Login</button>
+
+        <p class="modal-bottom">Don't have an account?
+            <span class="signup-link">Sign Up</span>
+        </p>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
