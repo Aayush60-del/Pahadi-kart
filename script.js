@@ -2,6 +2,7 @@ let cartCount = 0;
 const cartBadge = document.getElementById('cartBadge');
 const toast = document.getElementById('toast');
 
+// ===== HAMBURGER =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileNav = document.getElementById('mobileNav');
 hamburgerBtn.addEventListener('click', () => {
@@ -9,50 +10,56 @@ hamburgerBtn.addEventListener('click', () => {
     hamburgerBtn.classList.toggle('active');
 });
 
+// ===== SCROLL ANIMATION =====
 const fadeElements = document.querySelectorAll('.fade-in');
-const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
         }
     });
 });
-fadeElements.forEach(function (element) {
+fadeElements.forEach(function(element) {
     observer.observe(element);
 });
 
+// ===== LOGIN MODAL =====
 const loginModal = document.getElementById('loginModal');
 const overlay = document.getElementById('overlay');
 const modalClose = document.getElementById('modalClose');
-const loginButton = document.querySelector('.head_sec button');
 
-loginButton.addEventListener('click', function () {
-    loginModal.classList.add('active');
-    overlay.classList.add('active');
+// Desktop + Mobile dono buttons handle karo
+const allLoginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
+allLoginBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        loginModal.classList.add('active');
+        overlay.classList.add('active');
+    });
 });
-modalClose.addEventListener('click', function () {
+
+modalClose.addEventListener('click', function() {
     loginModal.classList.remove('active');
     overlay.classList.remove('active');
 });
-overlay.addEventListener('click', function () {
+overlay.addEventListener('click', function() {
     loginModal.classList.remove('active');
     overlay.classList.remove('active');
 });
 
+// ===== PRODUCTS DATA =====
 const products = [
-    { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "https://source.unsplash.com/300x200/?pashmina,shawl" },
-    { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", category: "organic", image: "https://source.unsplash.com/300x200/?honey,organic" },
-    { name: "Wooden Craft", price: "₹899", rating: "⭐ 4.7", category: "handicraft", image: "https://source.unsplash.com/300x200/?wooden,craft" },
-    { name: "Woolen Jacket", price: "₹2199", rating: "⭐ 4.5", category: "clothing", image: "https://source.unsplash.com/300x200/?woolen,jacket" },
-    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", category: "organic", image: "https://source.unsplash.com/300x200/?candle,handmade" },
+    { name: "Pashmina Shawl",   price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "https://source.unsplash.com/300x200/?pashmina,shawl" },
+    { name: "Organic Honey",    price: "₹499",  rating: "⭐ 4.6", category: "organic",    image: "https://source.unsplash.com/300x200/?honey,organic" },
+    { name: "Wooden Craft",     price: "₹899",  rating: "⭐ 4.7", category: "handicraft", image: "https://source.unsplash.com/300x200/?wooden,craft" },
+    { name: "Woolen Jacket",    price: "₹2199", rating: "⭐ 4.5", category: "clothing",   image: "https://source.unsplash.com/300x200/?woolen,jacket" },
+    { name: "Handmade Candles", price: "₹349",  rating: "⭐ 4.9", category: "organic",    image: "https://source.unsplash.com/300x200/?candle,handmade" },
 ];
 
-
-
+// ===== DYNAMIC CARDS =====
 const cardContainer = document.getElementById('cardContainer');
 
 function showCards(filteredProducts) {
-    cardContainer.innerHTML = '';  
+    cardContainer.innerHTML = '';
 
     filteredProducts.forEach(function(product) {
         cardContainer.innerHTML += `
@@ -74,27 +81,30 @@ function showCards(filteredProducts) {
     attachWishlistButtons();
 }
 
-
+// Pehli baar saare cards dikho
 showCards(products);
+
+// ===== CART BUTTONS =====
 function attachCartButtons() {
     const addToCartBtns = document.querySelectorAll('.add-cart-btn');
-    addToCartBtns.forEach(function (button) {
-        button.addEventListener('click', function () {
+    addToCartBtns.forEach(function(button) {
+        button.addEventListener('click', function() {
             cartCount = cartCount + 1;
             cartBadge.innerHTML = cartCount;
             cartBadge.style.display = 'flex';
             toast.innerHTML = '✅ Added to cart!';
             toast.style.backgroundColor = '#4caf50';
             toast.style.display = 'flex';
-            setTimeout(function () { toast.style.display = 'none'; }, 2000);
+            setTimeout(function() { toast.style.display = 'none'; }, 2000);
         });
     });
 }
 
+// ===== WISHLIST BUTTONS =====
 function attachWishlistButtons() {
     const wishlistBtns = document.querySelectorAll('.wishlist-btn');
-    wishlistBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    wishlistBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
             if (btn.classList.contains('liked')) {
                 btn.classList.remove('liked');
                 btn.innerHTML = '🤍';
@@ -106,51 +116,61 @@ function attachWishlistButtons() {
     });
 }
 
+// ===== NAV FILTER — Desktop + Mobile =====
 const navFilters = document.querySelectorAll('.nav-filter');
 
 navFilters.forEach(function(link) {
     link.addEventListener('click', function(e) {
-        e.preventDefault();  
+        e.preventDefault();
 
         const category = link.dataset.category;
 
-        if (category === 'all') {
-            showCards(products);  
+        if (!category || category === 'all') {
+            showCards(products);
         } else {
             const filtered = products.filter(function(p) {
                 return p.category === category;
             });
-            showCards(filtered);  
+            showCards(filtered);
         }
+
+        // Mobile nav band karo filter ke baad
+        mobileNav.classList.remove('open');
+        hamburgerBtn.classList.remove('active');
     });
 });
+
+// ===== SUBSCRIBE =====
 const subscribeBtn = document.querySelector('.foot4-span button');
 const emailInput = document.getElementById('f4');
 
-
-
-subscribeBtn.addEventListener('click', function () {
+subscribeBtn.addEventListener('click', function() {
     let mail = emailInput.value.trim();
+
     if (mail == "") {
         toast.innerHTML = '❌ Email is empty!';
         toast.style.backgroundColor = '#e53935';
         toast.style.display = 'flex';
-        setTimeout(function () { toast.style.display = 'none'; }, 2000); return;
+        setTimeout(function() { toast.style.display = 'none'; }, 2000);
+        return;
     }
 
     if (!mail.includes('@')) {
         toast.innerHTML = '❌ Invalid email!';
         toast.style.backgroundColor = '#e53935';
         toast.style.display = 'flex';
-        setTimeout(function () { toast.style.display = 'none'; }, 2000); return;
+        setTimeout(function() { toast.style.display = 'none'; }, 2000);
+        return;
     }
 
     toast.innerHTML = '🎉 Subscribed successfully!';
     toast.style.backgroundColor = '#4caf50';
     toast.style.display = 'flex';
     emailInput.value = '';
-    setTimeout(function () { toast.style.display = 'none'; }, 2000);
-})
+    setTimeout(function() { toast.style.display = 'none'; }, 2000);
+});
+
+// ===== EXPLORE ARTISAN TOAST =====
 const exploreBtn = document.querySelector('.context button');
 
 exploreBtn.addEventListener('click', function(e) {
