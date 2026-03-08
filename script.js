@@ -2,7 +2,7 @@ let cartCount = 0;
 const cartBadge = document.getElementById('cartBadge');
 const toast = document.getElementById('toast');
 
-// ===== HAMBURGER =====
+
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileNav = document.getElementById('mobileNav');
 hamburgerBtn.addEventListener('click', () => {
@@ -10,7 +10,7 @@ hamburgerBtn.addEventListener('click', () => {
     hamburgerBtn.classList.toggle('active');
 });
 
-// ===== SCROLL ANIMATION =====
+
 const fadeElements = document.querySelectorAll('.fade-in');
 const observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
@@ -23,12 +23,12 @@ fadeElements.forEach(function(element) {
     observer.observe(element);
 });
 
-// ===== LOGIN MODAL =====
+
 const loginModal = document.getElementById('loginModal');
 const overlay = document.getElementById('overlay');
 const modalClose = document.getElementById('modalClose');
 
-// Desktop + Mobile dono buttons handle karo
+
 const allLoginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
 allLoginBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -46,16 +46,16 @@ overlay.addEventListener('click', function() {
     overlay.classList.remove('active');
 });
 
-// ===== PRODUCTS DATA =====
+
 const products = [
-    { name: "Pashmina Shawl",   price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "https://source.unsplash.com/300x200/?pashmina,shawl" },
-    { name: "Organic Honey",    price: "₹499",  rating: "⭐ 4.6", category: "organic",    image: "https://source.unsplash.com/300x200/?honey,organic" },
-    { name: "Wooden Craft",     price: "₹899",  rating: "⭐ 4.7", category: "handicraft", image: "https://source.unsplash.com/300x200/?wooden,craft" },
-    { name: "Woolen Jacket",    price: "₹2199", rating: "⭐ 4.5", category: "clothing",   image: "https://source.unsplash.com/300x200/?woolen,jacket" },
-    { name: "Handmade Candles", price: "₹349",  rating: "⭐ 4.9", category: "organic",    image: "https://source.unsplash.com/300x200/?candle,handmade" },
+    { name: "Pashmina Shawl",   price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "pashmin_shawal.jpg" },
+    { name: "Organic Honey",    price: "₹499",  rating: "⭐ 4.6", category: "organic",    image: "honey.webp" },
+    { name: "Wooden Craft",     price: "₹899",  rating: "⭐ 4.7", category: "handicraft", image: "wooden_craft.webp" },
+    { name: "Woolen Jacket",    price: "₹2199", rating: "⭐ 4.5", category: "clothing",   image: "woolen_jacket.webp" },
+    { name: "Handmade Candles", price: "₹349",  rating: "⭐ 4.9", category: "organic",    image: "candel.webp" },
 ];
 
-// ===== DYNAMIC CARDS =====
+
 const cardContainer = document.getElementById('cardContainer');
 
 function showCards(filteredProducts) {
@@ -81,10 +81,10 @@ function showCards(filteredProducts) {
     attachWishlistButtons();
 }
 
-// Pehli baar saare cards dikho
+
 showCards(products);
 
-// ===== CART BUTTONS =====
+
 function attachCartButtons() {
     const addToCartBtns = document.querySelectorAll('.add-cart-btn');
     addToCartBtns.forEach(function(button) {
@@ -100,7 +100,7 @@ function attachCartButtons() {
     });
 }
 
-// ===== WISHLIST BUTTONS =====
+
 function attachWishlistButtons() {
     const wishlistBtns = document.querySelectorAll('.wishlist-btn');
     wishlistBtns.forEach(function(btn) {
@@ -116,7 +116,7 @@ function attachWishlistButtons() {
     });
 }
 
-// ===== NAV FILTER — Desktop + Mobile =====
+
 const navFilters = document.querySelectorAll('.nav-filter');
 
 navFilters.forEach(function(link) {
@@ -134,13 +134,11 @@ navFilters.forEach(function(link) {
             showCards(filtered);
         }
 
-        // Mobile nav band karo filter ke baad
         mobileNav.classList.remove('open');
         hamburgerBtn.classList.remove('active');
     });
 });
 
-// ===== SUBSCRIBE =====
 const subscribeBtn = document.querySelector('.foot4-span button');
 const emailInput = document.getElementById('f4');
 
@@ -170,7 +168,7 @@ subscribeBtn.addEventListener('click', function() {
     setTimeout(function() { toast.style.display = 'none'; }, 2000);
 });
 
-// ===== EXPLORE ARTISAN TOAST =====
+
 const exploreBtn = document.querySelector('.context button');
 
 exploreBtn.addEventListener('click', function(e) {
