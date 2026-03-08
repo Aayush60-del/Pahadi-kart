@@ -222,9 +222,12 @@ searchInput.addEventListener('keyup', async function() {
     showCards(filtered);
 });
 
-const viewAll = document.querySelector(".view_all")
+const viewAll = document.querySelector(".view_all");
 
-viewAll.addEventListener('click' , function()
-{
-    showCards(products);
-})
+if (viewAll) {
+    viewAll.addEventListener('click', function () {
+        showCards(products);
+        mobileNav.classList.remove('open');        
+        hamburgerBtn.classList.remove('active');   
+    });
+}
