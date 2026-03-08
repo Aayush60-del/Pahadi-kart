@@ -231,3 +231,38 @@ if (viewAll) {
         hamburgerBtn.classList.remove('active');   
     });
 }
+
+const categoryCards = document.querySelectorAll('.category-card'); 
+
+categoryCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+        const category = card.dataset.category; 
+
+        if (!category || category === 'all') {
+            showCards(products);
+        } else {
+            const filtered = products.filter(function(p) {
+                return p.category === category;
+            });
+            showCards(filtered);
+        }
+
+        document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+
+const Shop = document.querySelector(".shop_now");
+const Expo = document.querySelector(".Explore");
+
+Shop.addEventListener('click' , function()
+{
+document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+})
+
+Expo.addEventListener('click' , function()
+{
+   document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' }); 
+})
+
+
