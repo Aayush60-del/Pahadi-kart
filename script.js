@@ -221,3 +221,10 @@ searchInput.addEventListener('keyup', async function() {
 
     showCards(filtered);
 });
+
+const viewAll = document.querySelector(".view_all")
+
+viewAll.addEventListener('click' , function()
+{
+    showCards(products);
+})
