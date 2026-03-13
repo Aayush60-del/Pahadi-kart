@@ -1,5 +1,6 @@
-let cartCount = 0;
-const cartBadge = document.getElementById('cartBadge');
+let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+cartBadge.innerHTML = cartCount;
+if (cartCount > 0) cartBadge.style.display = 'flex';const cartBadge = document.getElementById('cartBadge');
 const toast = document.getElementById('toast');
 
 
@@ -9,6 +10,7 @@ hamburgerBtn.addEventListener('click', () => {
     mobileNav.classList.toggle('open');
     hamburgerBtn.classList.toggle('active');
 });
+
 
 
 const fadeElements = document.querySelectorAll('.fade-in');
@@ -87,31 +89,45 @@ showCards(products);
 
 function attachCartButtons() {
     const addToCartBtns = document.querySelectorAll('.add-cart-btn');
-    addToCartBtns.forEach(function (button) {
-        button.addEventListener('click', function () {
+    addToCartBtns.forEach(function(button) {
+        button.addEventListener('click', function() {
             cartCount = cartCount + 1;
             cartBadge.innerHTML = cartCount;
             cartBadge.style.display = 'flex';
+            localStorage.setItem('cartCount', cartCount); // save karo
             toast.innerHTML = '✅ Added to cart!';
             toast.style.backgroundColor = '#4caf50';
             toast.style.display = 'flex';
-            setTimeout(function () { toast.style.display = 'none'; }, 2000);
+            setTimeout(function() { toast.style.display = 'none'; }, 2000);
         });
     });
 }
 
-
 function attachWishlistButtons() {
     const wishlistBtns = document.querySelectorAll('.wishlist-btn');
-    wishlistBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    wishlistBtns.forEach(function(btn) {
+        const productName = btn.closest('.card').querySelector('h2').innerHTML;
+        
+        const saved = JSON.parse(localStorage.getItem('wishlist')) || [];
+        if (saved.includes(productName)) {
+            btn.classList.add('liked');
+            btn.innerHTML = '❤️';
+        }
+
+        btn.addEventListener('click', function() {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            
             if (btn.classList.contains('liked')) {
                 btn.classList.remove('liked');
                 btn.innerHTML = '🤍';
+                wishlist = wishlist.filter(item => item !== productName); // remove
             } else {
                 btn.classList.add('liked');
                 btn.innerHTML = '❤️';
+                wishlist.push(productName); // add
             }
+            
+            localStorage.setItem('wishlist', JSON.stringify(wishlist)); // save
         });
     });
 }
@@ -207,15 +223,15 @@ exploreBtn.addEventListener('click', function (e) {
 
 const searchInput = document.querySelector(".src");
 
-searchInput.addEventListener('keyup', async function() {
+searchInput.addEventListener('keyup', async function () {
     let searchText = searchInput.value.toLowerCase().trim();
-    
+
     if (searchText === "") {
         showCards(products);
         return;
     }
 
-    const filtered = products.filter(function(product) {
+    const filtered = products.filter(function (product) {
         return product.name.toLowerCase().includes(searchText);
     });
 
@@ -227,21 +243,21 @@ const viewAll = document.querySelector(".view_all");
 if (viewAll) {
     viewAll.addEventListener('click', function () {
         showCards(products);
-        mobileNav.classList.remove('open');        
-        hamburgerBtn.classList.remove('active');   
+        mobileNav.classList.remove('open');
+        hamburgerBtn.classList.remove('active');
     });
 }
 
-const categoryCards = document.querySelectorAll('.category-card'); 
+const categoryCards = document.querySelectorAll('.category-card');
 
-categoryCards.forEach(function(card) {
-    card.addEventListener('click', function() {
-        const category = card.dataset.category; 
+categoryCards.forEach(function (card) {
+    card.addEventListener('click', function () {
+        const category = card.dataset.category;
 
         if (!category || category === 'all') {
             showCards(products);
         } else {
-            const filtered = products.filter(function(p) {
+            const filtered = products.filter(function (p) {
                 return p.category === category;
             });
             showCards(filtered);
@@ -255,14 +271,11 @@ categoryCards.forEach(function(card) {
 const Shop = document.querySelector(".shop_now");
 const Expo = document.querySelector(".Explore");
 
-Shop.addEventListener('click' , function()
-{
-document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+Shop.addEventListener('click', function () {
+    document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
 })
 
-Expo.addEventListener('click' , function()
-{
-   document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' }); 
+Expo.addEventListener('click', function () {
+    document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
 })
-
 
