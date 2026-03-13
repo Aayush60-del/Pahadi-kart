@@ -1146,3 +1146,25 @@ footer {
         padding: 30px 20px;
     }
 }
+
+#backToTop {
+    position: fixed;
+    bottom: 80px;
+    right: 25px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #5d4037;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#backToTop:hover {
+    background-color: rgb(156, 96, 17);
+    transform: scale(1.1);
+}
