@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Traditional Clothing - PahadiKart</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="Head">
+        <div class="container">
+            <div id="logo" onclick="window.location.href='../../index.html'">
+                <img src="../../india.png">
+                <h2>NeoBharat</h2>
+            </div>
+            <div class="svg">
+                <input class="src" type="search" placeholder="Search clothing...">
+            </div>
+            <a href="../../index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>👘 Traditional Clothing</h1>
+        <p>Traditional Pahadi clothing crafted with love and heritage</p>
+    </div>
+
+    <div class="products-section">
+        <div class="info">
+            <div>
+                <h2>All Clothing</h2>
+                <p id="productCount">Showing products</p>
+            </div>
+            <select id="sortSelect">
+                <option value="default">Sort by Price</option>
+                <option value="low">Low to High ↑</option>
+                <option value="high">High to Low ↓</option>
+            </select>
+        </div>
+        <div class="card_" id="cardContainer"></div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 PahadiKart. Made with ❤️ for artisans.</p>
+    </div>
+
+    <div class="toast" id="toast">✅ Added to cart!</div>
+    <script src="script.js"></script>
 </body>
 </html>
