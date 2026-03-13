@@ -221,28 +221,29 @@ if (viewAll) {
 
 const categoryCards = document.querySelectorAll('.category-card');
 categoryCards.forEach(function (card) {
-    
-    // single click — pehle se hai (scroll wala)
+    let clickTimer = null;
+
     card.addEventListener('click', function () {
-        const category = card.dataset.category;
-        if (!category || category === 'all') {
-            showCards(products);
-        } else {
-            const filtered = products.filter(p => p.category === category);
-            showCards(filtered);
-        }
-        document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+        clickTimer = setTimeout(function () {
+            const category = card.dataset.category;
+            if (!category || category === 'all') {
+                showCards(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                showCards(filtered);
+            }
+            document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+        }, 250); 
     });
 
-    // double click — naya page ← YAHAN DAALO
     card.addEventListener('dblclick', function () {
+        clearTimeout(clickTimer); // 
         const category = card.dataset.category;
         if (category === 'handicraft') window.location.href = 'pages/handicraft/index.html';
         if (category === 'organic') window.location.href = 'pages/organic/index.html';
         if (category === 'clothing') window.location.href = 'pages/clothing/index.html';
         if (category === 'home') window.location.href = 'pages/home/index.html';
     });
-
 });
 
 const Shop = document.querySelector(".shop_now");
@@ -269,7 +270,7 @@ if (logo) {
 
 document.getElementById('backToTop').addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}); 
+});
 
 window.addEventListener('scroll', function () {
     const btn = document.getElementById('backToTop');
