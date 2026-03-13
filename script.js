@@ -1,8 +1,9 @@
-let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
-cartBadge.innerHTML = cartCount;
-if (cartCount > 0) cartBadge.style.display = 'flex';const cartBadge = document.getElementById('cartBadge');
+const cartBadge = document.getElementById('cartBadge');
 const toast = document.getElementById('toast');
 
+let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+cartBadge.innerHTML = cartCount;
+if (cartCount > 0) cartBadge.style.display = 'flex';
 
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileNav = document.getElementById('mobileNav');
@@ -10,8 +11,6 @@ hamburgerBtn.addEventListener('click', () => {
     mobileNav.classList.toggle('open');
     hamburgerBtn.classList.toggle('active');
 });
-
-
 
 const fadeElements = document.querySelectorAll('.fade-in');
 const observer = new IntersectionObserver(function (entries) {
@@ -25,11 +24,9 @@ fadeElements.forEach(function (element) {
     observer.observe(element);
 });
 
-
 const loginModal = document.getElementById('loginModal');
 const overlay = document.getElementById('overlay');
 const modalClose = document.getElementById('modalClose');
-
 
 const allLoginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
 allLoginBtns.forEach(function (btn) {
@@ -48,7 +45,6 @@ overlay.addEventListener('click', function () {
     overlay.classList.remove('active');
 });
 
-
 const products = [
     { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "pashmin_shawal.jpg" },
     { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", category: "organic", image: "honey.webp" },
@@ -57,12 +53,10 @@ const products = [
     { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", category: "organic", image: "candel.webp" },
 ];
 
-
 const cardContainer = document.getElementById('cardContainer');
 
 function showCards(filteredProducts) {
     cardContainer.innerHTML = '';
-
     filteredProducts.forEach(function (product) {
         cardContainer.innerHTML += `
             <div class="card">
@@ -78,69 +72,60 @@ function showCards(filteredProducts) {
             </div>
         `;
     });
-
     attachCartButtons();
     attachWishlistButtons();
 }
 
-
 showCards(products);
-
 
 function attachCartButtons() {
     const addToCartBtns = document.querySelectorAll('.add-cart-btn');
-    addToCartBtns.forEach(function(button) {
-        button.addEventListener('click', function() {
+    addToCartBtns.forEach(function (button) {
+        button.addEventListener('click', function () {
             cartCount = cartCount + 1;
             cartBadge.innerHTML = cartCount;
             cartBadge.style.display = 'flex';
-            localStorage.setItem('cartCount', cartCount); // save karo
+            localStorage.setItem('cartCount', cartCount);
             toast.innerHTML = '✅ Added to cart!';
             toast.style.backgroundColor = '#4caf50';
             toast.style.display = 'flex';
-            setTimeout(function() { toast.style.display = 'none'; }, 2000);
+            setTimeout(function () { toast.style.display = 'none'; }, 2000);
         });
     });
 }
 
 function attachWishlistButtons() {
     const wishlistBtns = document.querySelectorAll('.wishlist-btn');
-    wishlistBtns.forEach(function(btn) {
+    wishlistBtns.forEach(function (btn) {
         const productName = btn.closest('.card').querySelector('h2').innerHTML;
-        
+
         const saved = JSON.parse(localStorage.getItem('wishlist')) || [];
         if (saved.includes(productName)) {
             btn.classList.add('liked');
             btn.innerHTML = '❤️';
         }
 
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            
             if (btn.classList.contains('liked')) {
                 btn.classList.remove('liked');
                 btn.innerHTML = '🤍';
-                wishlist = wishlist.filter(item => item !== productName); // remove
+                wishlist = wishlist.filter(item => item !== productName);
             } else {
                 btn.classList.add('liked');
                 btn.innerHTML = '❤️';
-                wishlist.push(productName); // add
+                wishlist.push(productName);
             }
-            
-            localStorage.setItem('wishlist', JSON.stringify(wishlist)); // save
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
         });
     });
 }
 
-
 const navFilters = document.querySelectorAll('.nav-filter');
-
 navFilters.forEach(function (link) {
     link.addEventListener('click', function (e) {
         e.preventDefault();
-
         const category = link.dataset.category;
-
         if (!category || category === 'all') {
             showCards(products);
         } else {
@@ -149,7 +134,6 @@ navFilters.forEach(function (link) {
             });
             showCards(filtered);
         }
-
         mobileNav.classList.remove('open');
         hamburgerBtn.classList.remove('active');
     });
@@ -157,18 +141,15 @@ navFilters.forEach(function (link) {
 
 const subscribeBtn = document.querySelector('.foot4-span button');
 const emailInput = document.getElementById('f4');
-
 subscribeBtn.addEventListener('click', function () {
     let mail = emailInput.value.trim();
-
-    if (mail == "") {
+    if (mail === "") {
         toast.innerHTML = '❌ Email is empty!';
         toast.style.backgroundColor = '#e53935';
         toast.style.display = 'flex';
         setTimeout(function () { toast.style.display = 'none'; }, 2000);
         return;
     }
-
     if (!mail.includes('@')) {
         toast.innerHTML = '❌ Invalid email!';
         toast.style.backgroundColor = '#e53935';
@@ -176,7 +157,6 @@ subscribeBtn.addEventListener('click', function () {
         setTimeout(function () { toast.style.display = 'none'; }, 2000);
         return;
     }
-
     toast.innerHTML = '🎉 Subscribed successfully!';
     toast.style.backgroundColor = '#4caf50';
     toast.style.display = 'flex';
@@ -184,12 +164,9 @@ subscribeBtn.addEventListener('click', function () {
     setTimeout(function () { toast.style.display = 'none'; }, 2000);
 });
 
-
 const exploreBtn = document.querySelector('.context button');
-
 exploreBtn.addEventListener('click', function (e) {
     e.preventDefault();
-
     toast.style.backgroundColor = '#3e2723';
     toast.style.padding = '20px 30px';
     toast.style.borderRadius = '15px';
@@ -208,7 +185,6 @@ exploreBtn.addEventListener('click', function (e) {
         <span>❤️ Every purchase = direct support</span>
     `;
     toast.style.display = 'flex';
-
     setTimeout(function () {
         toast.style.display = 'none';
         toast.style.backgroundColor = '#4caf50';
@@ -222,24 +198,19 @@ exploreBtn.addEventListener('click', function (e) {
 });
 
 const searchInput = document.querySelector(".src");
-
-searchInput.addEventListener('keyup', async function () {
+searchInput.addEventListener('keyup', function () {
     let searchText = searchInput.value.toLowerCase().trim();
-
     if (searchText === "") {
         showCards(products);
         return;
     }
-
     const filtered = products.filter(function (product) {
         return product.name.toLowerCase().includes(searchText);
     });
-
     showCards(filtered);
 });
 
 const viewAll = document.querySelector(".view_all");
-
 if (viewAll) {
     viewAll.addEventListener('click', function () {
         showCards(products);
@@ -249,11 +220,9 @@ if (viewAll) {
 }
 
 const categoryCards = document.querySelectorAll('.category-card');
-
 categoryCards.forEach(function (card) {
     card.addEventListener('click', function () {
         const category = card.dataset.category;
-
         if (!category || category === 'all') {
             showCards(products);
         } else {
@@ -262,20 +231,28 @@ categoryCards.forEach(function (card) {
             });
             showCards(filtered);
         }
-
         document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
     });
 });
 
-
 const Shop = document.querySelector(".shop_now");
 const Expo = document.querySelector(".Explore");
 
-Shop.addEventListener('click', function () {
-    document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
-})
+if (Shop) {
+    Shop.addEventListener('click', function () {
+        document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+    });
+}
 
-Expo.addEventListener('click', function () {
-    document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
-})
+if (Expo) {
+    Expo.addEventListener('click', function () {
+        document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
+    });
+}
 
+const logo = document.getElementById('logo');
+if (logo) {
+    logo.addEventListener('click', () => {
+        document.querySelector('.boody').scrollIntoView({ behavior: 'smooth' });
+    });
+}
