@@ -1,3 +1,7 @@
+const SUPABASE_URL = 'https://bkbwsdjnlswppbezmvig.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_FF0gpAOw9R8Abcnex94cww_-7oDtq4q';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const cartBadge = document.getElementById('cartBadge');
 const toast = document.getElementById('toast');
 
@@ -45,13 +49,7 @@ overlay.addEventListener('click', function () {
     overlay.classList.remove('active');
 });
 
-const products = [
-    { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "images/Jpg/pashmin_shawal.jpg" },
-    { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", category: "organic", image: "images/Jpg/honey.webp" },
-    { name: "Wooden Craft", price: "₹899", rating: "⭐ 4.7", category: "handicraft", image: "images/Jpg/wooden_craft.webp" },
-    { name: "Woolen Jacket", price: "₹2199", rating: "⭐ 4.5", category: "clothing", image: "images/Jpg/woolen_jacket.webp" },
-    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", category: "organic", image: "images/Jpg/candel.webp" },
-];
+let products = [];
 
 const cardContainer = document.getElementById('cardContainer');
 
@@ -66,7 +64,7 @@ function showCards(filteredProducts) {
                 <h2>${product.rating}</h2>
                 <h2>${product.price}</h2>
                 <button class="add-cart-btn flex_">
-                    <img src="cart.svg">
+                    <img src="images/Svg/cart.svg">
                     <h4>Add to cart</h4>
                 </button>
             </div>
@@ -76,7 +74,21 @@ function showCards(filteredProducts) {
     attachWishlistButtons();
 }
 
-showCards(products);
+async function fetchProducts() {
+    const { data, error } = await supabaseClient
+        .from('products')
+        .select('*');
+
+    if (error) {
+        console.log('Supabase Error:', error);
+        return;
+    }
+
+    products = data;
+    showCards(products);
+}
+
+fetchProducts();
 
 function attachCartButtons() {
     const addToCartBtns = document.querySelectorAll('.add-cart-btn');
@@ -233,11 +245,11 @@ categoryCards.forEach(function (card) {
                 showCards(filtered);
             }
             document.getElementById('cardContainer').scrollIntoView({ behavior: 'smooth' });
-        }, 250); 
+        }, 250);
     });
 
     card.addEventListener('dblclick', function () {
-        clearTimeout(clickTimer); // 
+        clearTimeout(clickTimer);
         const category = card.dataset.category;
         if (category === 'handicraft') window.location.href = 'pages/handicraft/index.html';
         if (category === 'organic') window.location.href = 'pages/organic/index.html';
