@@ -46,11 +46,11 @@ overlay.addEventListener('click', function () {
 });
 
 const products = [
-    { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "pashmin_shawal.jpg" },
-    { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", category: "organic", image: "honey.webp" },
-    { name: "Wooden Craft", price: "₹899", rating: "⭐ 4.7", category: "handicraft", image: "wooden_craft.webp" },
-    { name: "Woolen Jacket", price: "₹2199", rating: "⭐ 4.5", category: "clothing", image: "woolen_jacket.webp" },
-    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", category: "organic", image: "candel.webp" },
+    { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", category: "handicraft", image: "images/Jpg/pashmin_shawal.jpg" },
+    { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", category: "organic", image: "images/Jpg/honey.webp" },
+    { name: "Wooden Craft", price: "₹899", rating: "⭐ 4.7", category: "handicraft", image: "images/Jpg/wooden_craft.webp" },
+    { name: "Woolen Jacket", price: "₹2199", rating: "⭐ 4.5", category: "clothing", image: "images/Jpg/woolen_jacket.webp" },
+    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", category: "organic", image: "images/Jpg/candel.webp" },
 ];
 
 const cardContainer = document.getElementById('cardContainer');

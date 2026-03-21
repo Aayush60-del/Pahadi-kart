@@ -45,7 +45,7 @@
 
 .hero {
     background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-                url('../../woolen_jacket.webp');
+                url('../../images/Web/woolen_jacket.webp');
     background-size: cover;
     background-position: center;
     min-height: 40vh;

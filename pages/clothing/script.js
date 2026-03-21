@@ -1,7 +1,7 @@
 const products = [
-    { name: "Woolen Jacket", price: "₹2199", rating: "⭐ 4.5", image: "../../woolen_jacket.webp" },
-    { name: "Pahadi Kurti", price: "₹899", rating: "⭐ 4.7", image: "../../brand.png" },
-    { name: "Woolen Shawl", price: "₹1499", rating: "⭐ 4.8", image: "../../pashmin_shawal.jpg" },
+    { name: "Woolen Jacket", price: "₹2199", rating: "⭐ 4.5", image: "../../images/Jpg/woolen_jacket.webp" },
+    { name: "Pahadi Kurti", price: "₹899", rating: "⭐ 4.7", image: "../../images/Png/brand.png" },
+    { name: "Woolen Shawl", price: "₹1499", rating: "⭐ 4.8", image: "../../images/Jpg/pashmin_shawal.jpg" },
 ];
 
 const cardContainer = document.getElementById('cardContainer');

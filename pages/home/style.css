@@ -43,7 +43,7 @@
 
 .hero {
     background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-                url('../../bowl.webp');
+                url('../../images/Web/bowl.webp');
     background-size: cover;
     background-position: center;
     min-height: 40vh;

@@ -1,7 +1,7 @@
 const products = [
-    { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", image: "../../honey.webp" },
-    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", image: "../../candel.webp" },
-    { name: "Bajra Flour", price: "₹299", rating: "⭐ 4.5", image: "../../bajra.jpg" },
+    { name: "Organic Honey", price: "₹499", rating: "⭐ 4.6", image: "../../images/Jpg/honey.webp" },
+    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", image: "../../images/Jpg/candel.webp" },
+    { name: "Bajra Flour", price: "₹299", rating: "⭐ 4.5", image: "../../images/Jpg/bajra.jpg" },
 ];
 
 const cardContainer = document.getElementById('cardContainer');

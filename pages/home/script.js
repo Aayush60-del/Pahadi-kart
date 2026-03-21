@@ -1,7 +1,7 @@
 const products = [
-    { name: "Copper Bowl", price: "₹649", rating: "⭐ 4.6", image: "../../bowl.webp" },
-    { name: "Wooden Shelf", price: "₹1299", rating: "⭐ 4.7", image: "../../shelf.png" },
-    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", image: "../../candel.webp" },
+    { name: "Copper Bowl", price: "₹649", rating: "⭐ 4.6", image: "../../images/Jpg/bowl.webp" },
+    { name: "Wooden Shelf", price: "₹1299", rating: "⭐ 4.7", image: "../../images/Png/shelf.png" },
+    { name: "Handmade Candles", price: "₹349", rating: "⭐ 4.9", image: "../../images/Jpg/candel.webp" },
 ];
 
 const cardContainer = document.getElementById('cardContainer');

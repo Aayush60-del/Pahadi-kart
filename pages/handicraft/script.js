@@ -1,7 +1,7 @@
 const products = [
-    { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", image: "../../pashmin_shawal.jpg" },
-    { name: "Wooden Craft", price: "₹899", rating: "⭐ 4.7", image: "../../wooden_craft.webp" },
-    { name: "Copper Pot", price: "₹649", rating: "⭐ 4.6", image: "../../bowl.webp" },
+    { name: "Pashmina Shawl", price: "₹1299", rating: "⭐ 4.8", image: "../../images/Jpg/pashmin_shawal.jpg" },
+    { name: "Wooden Craft", price: "₹899", rating: "⭐ 4.7", image: "../../images/Jpg/wooden_craft.webp" },
+    { name: "Copper Pot", price: "₹649", rating: "⭐ 4.6", image: "../../images/Jpg/bowl.webp" },
 ];
 
 const cardContainer = document.getElementById('cardContainer');
