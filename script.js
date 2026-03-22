@@ -49,6 +49,79 @@ overlay.addEventListener('click', function () {
     overlay.classList.remove('active');
 });
 
+// ✅ AUTH CODE YAHAN SE SHURU
+document.getElementById('loginBtn').addEventListener('click', async function () {
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passInput').value;
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        alert('❌ ' + error.message);
+        return;
+    }
+
+    loginModal.classList.remove('active');
+    overlay.classList.remove('active');
+    updateAuthUI(data.user);
+    toast.innerHTML = '✅ Login successful!';
+    toast.style.backgroundColor = '#4caf50';
+    toast.style.display = 'flex';
+    setTimeout(() => toast.style.display = 'none', 2000);
+});
+
+document.querySelector('.signup-link').addEventListener('click', async function () {
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passInput').value;
+
+    if (!email || !password) {
+        alert('Email aur password daalo!');
+        return;
+    }
+
+    const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        alert('❌ ' + error.message);
+        return;
+    }
+
+    loginModal.classList.remove('active');
+    overlay.classList.remove('active');
+    toast.innerHTML = '🎉 Account created!';
+    toast.style.backgroundColor = '#4caf50';
+    toast.style.display = 'flex';
+    setTimeout(() => toast.style.display = 'none', 2000);
+});
+
+function updateAuthUI(user) {
+    const loginBtn = document.querySelector('.head_sec button');
+    if (user) {
+        loginBtn.innerHTML = `<img src="images/Svg/admin.svg"><h3>${user.email.split('@')[0]}</h3>`;
+        loginBtn.onclick = async function () {
+            await supabaseClient.auth.signOut();
+            loginBtn.innerHTML = `<img src="images/Svg/admin.svg"><h3>Login</h3>`;
+            loginBtn.onclick = null;
+            toast.innerHTML = '👋 Logged out!';
+            toast.style.backgroundColor = '#e53935';
+            toast.style.display = 'flex';
+            setTimeout(() => toast.style.display = 'none', 2000);
+        };
+    }
+}
+
+supabaseClient.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
+        updateAuthUI(session.user);
+    }
+});
+
 let products = [];
 
 const cardContainer = document.getElementById('cardContainer');
