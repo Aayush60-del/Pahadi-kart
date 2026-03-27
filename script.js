@@ -49,7 +49,6 @@ overlay.addEventListener('click', function () {
     overlay.classList.remove('active');
 });
 
-// ✅ AUTH CODE YAHAN SE SHURU
 document.getElementById('loginBtn').addEventListener('click', async function () {
     const email = document.getElementById('emailInput').value;
     const password = document.getElementById('passInput').value;
