@@ -12,12 +12,10 @@ const supabase = createClient(
     process.env.SUPABASE_KEY
 );
 
-// Test route
 app.get('/', (req, res) => {
     res.json({ message: 'PahadiKart API running' });
 });
 
-// Saare products
 app.get('/products', async (req, res) => {
     const { data, error } = await supabase
         .from('products')
@@ -27,7 +25,6 @@ app.get('/products', async (req, res) => {
     res.json(data);
 });
 
-// Category ke products
 app.get('/products/:category', async (req, res) => {
     const { data, error } = await supabase
         .from('products')
@@ -38,7 +35,6 @@ app.get('/products/:category', async (req, res) => {
     res.json(data);
 });
 
-// Product add karo
 app.post('/products', async (req, res) => {
     const { name, price, rating, category, image } = req.body;
     const { data, error } = await supabase
@@ -66,7 +62,7 @@ app.put('/products/:id', async (req, res) => {
     data: data
   });
 });
-// Product delete karo
+
 app.delete('/products/:id', async (req, res) => {
     const { data, error } = await supabase
         .from('products')
