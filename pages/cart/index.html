@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - PahadiKart</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="Head">
+        <div class="container">
+            <div id="logo" onclick="window.location.href='../../index.html'">
+                <img src="../../images/Png/india.png">
+                <h2>NeoBharat</h2>
+            </div>
+            <a href="../../index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </div>
+
+    <div class="cart-container">
+        <h1>🛒 Your Cart</h1>
+        <div id="cartItems"></div>
+        <div class="cart-summary" id="cartSummary"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="script.js"></script>
+</body>
+</html>

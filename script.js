@@ -165,15 +165,57 @@ fetchProducts();
 function attachCartButtons() {
     const addToCartBtns = document.querySelectorAll('.add-cart-btn');
     addToCartBtns.forEach(function (button) {
-        button.addEventListener('click', function () {
-            cartCount = cartCount + 1;
+        button.addEventListener('click', async function () {
+            const card = button.closest('.card');
+            const name = card.querySelectorAll('h2')[0].innerHTML;
+            const rating = card.querySelectorAll('h2')[1].innerHTML;
+            const price = card.querySelectorAll('h2')[2].innerHTML;
+            const image = card.querySelector('.show').style.backgroundImage.slice(5, -2);
+
+            const { data: { session } } = await supabaseClient.auth.getSession();
+
+            if (!session) {
+                toast.innerHTML = '⚠️ Pehle login karo!';
+                toast.style.backgroundColor = '#e53935';
+                toast.style.display = 'flex';
+                setTimeout(() => toast.style.display = 'none', 2000);
+                return;
+            }
+
+            // Check karo already cart mein hai ya nahi
+            const { data: existing } = await supabaseClient
+                .from('cart')
+                .select('*')
+                .eq('user_id', session.user.id)
+                .eq('name', name);
+
+            if (existing && existing.length > 0) {
+                // Quantity badhao
+                await supabaseClient
+                    .from('cart')
+                    .update({ quantity: existing[0].quantity + 1 })
+                    .eq('id', existing[0].id);
+            } else {
+                // Naya item add karo
+                await supabaseClient
+                    .from('cart')
+                    .insert([{
+                        user_id: session.user.id,
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: 1
+                    }]);
+            }
+
+            cartCount++;
             cartBadge.innerHTML = cartCount;
             cartBadge.style.display = 'flex';
             localStorage.setItem('cartCount', cartCount);
             toast.innerHTML = '✅ Added to cart!';
             toast.style.backgroundColor = '#4caf50';
             toast.style.display = 'flex';
-            setTimeout(function () { toast.style.display = 'none'; }, 2000);
+            setTimeout(() => toast.style.display = 'none', 2000);
         });
     });
 }
