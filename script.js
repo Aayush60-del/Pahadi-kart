@@ -175,7 +175,7 @@ function attachCartButtons() {
             const { data: { session } } = await supabaseClient.auth.getSession();
 
             if (!session) {
-                toast.innerHTML = '⚠️ Pehle login karo!';
+                toast.innerHTML = '⚠️ Please login !';
                 toast.style.backgroundColor = '#e53935';
                 toast.style.display = 'flex';
                 setTimeout(() => toast.style.display = 'none', 2000);
@@ -196,7 +196,6 @@ function attachCartButtons() {
                     .update({ quantity: existing[0].quantity + 1 })
                     .eq('id', existing[0].id);
             } else {
-                // Naya item add karo
                 await supabaseClient
                     .from('cart')
                     .insert([{
