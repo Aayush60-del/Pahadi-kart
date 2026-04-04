@@ -219,7 +219,7 @@ a {
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    min-height: 80vh;
+    min-height: 50vh;
     position: relative;
     display: flex;
     align-items: center;
@@ -330,7 +330,7 @@ a {
 
 
 .boody {
-    min-height: 50vh;
+    min-height: 50%;
     width: 100%;
     background-color: rgba(250, 235, 215, 0.515);
     display: flex;
