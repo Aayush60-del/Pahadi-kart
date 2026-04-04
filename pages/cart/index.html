@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart - PahadiKart</title>
+    <title>Your Basket - PahadiKart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../../images/Png/india.png" type="image/png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <div class="Head">
         <div class="container">
             <div id="logo" onclick="window.location.href='../../index.html'">
@@ -18,11 +22,65 @@
         </div>
     </div>
 
-    <div class="cart-container">
-        <h1>🛒 Your Cart</h1>
-        <div id="cartItems"></div>
-        <div class="cart-summary" id="cartSummary"></div>
+    <!-- FREE SHIPPING PROGRESS BAR -->
+    <div class="shipping-banner" id="shippingBanner">
+        <div class="shipping-text">
+            <span id="shippingMsg">🚚 Loading...</span>
+        </div>
+        <div class="shipping-progress-track">
+            <div class="shipping-progress-fill" id="shippingFill" style="width: 0%"></div>
+        </div>
+        <span class="shipping-pct" id="shippingPct">0% Complete</span>
     </div>
+
+    <!-- BASKET CONTAINER -->
+    <div class="cart-container">
+        <div class="basket-header">
+            <div>
+                <h1>🧺 Your Basket</h1>
+                <p class="basket-sub">Items crafted with Himalayan soul.</p>
+            </div>
+        </div>
+
+        <div id="cartItems"></div>
+
+        <!-- PROMO CODE -->
+        <div class="promo-section" id="promoSection" style="display:none;">
+            <h3>🏷️ Promotional Code</h3>
+            <div class="promo-row">
+                <input type="text" id="promoInput" placeholder="Enter code (try: PAHADI10)">
+                <button id="applyPromoBtn">Apply</button>
+            </div>
+            <p class="promo-msg" id="promoMsg"></p>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="cart-summary" id="cartSummary"></div>
+
+        <!-- ARTISAN PROMISE -->
+        <div class="artisan-promise" id="artisanPromise" style="display:none;">
+            <div class="promise-content">
+                <h3>🏔️ The Artisan's Promise</h3>
+                <p>Every purchase directly supports local Himalayan families. 100% of our handcrafted products are ethically sourced from artisan communities.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="../../index.html" class="bnav-item">
+            <span>🏠</span><span>Home</span>
+        </a>
+        <a href="../../index.html#cardContainer" class="bnav-item">
+            <span>🛍️</span><span>Shop</span>
+        </a>
+        <a href="../../pages/wishlist/index.html" class="bnav-item">
+            <span>❤️</span><span>Wishlist</span>
+        </a>
+        <a href="" class="bnav-item active">
+            <span>🛒</span><span>Cart</span>
+        </a>
+    </nav>
 
     <div class="toast" id="toast"></div>
     <script src="script.js"></script>

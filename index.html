@@ -44,6 +44,12 @@
                     <a href="" class="nav-filter" data-category="handicraft">Handicrafts</a>
                     <a href="" class="nav-filter" data-category="organic">Organic Foods</a>
                     <a href="">
+                        <div class="cart-icon-wrapper" onclick="window.location.href='pages/wishlist/index.html'" style="cursor:pointer">
+                            <span style="font-size:22px;">❤️</span>
+                            <span class="cart-badge" id="wishlistBadge">0</span>
+                        </div>
+                    </a>
+                    <a href="">
                         <div class="cart-icon-wrapper" onclick="window.location.href='pages/cart/index.html'">
                             <img src="images/Svg/cart.svg">
                             <span class="cart-badge" id="cartBadge">0</span>
@@ -59,6 +65,10 @@
                     <a href="" class="nav-filter" data-category="all">All products</a>
                     <a href="" class="nav-filter" data-category="handicraft">Handicrafts</a>
                     <a href="" class="nav-filter" data-category="organic">Organic Foods</a>
+                    <div class="cart-icon-wrapper" onclick="window.location.href='pages/wishlist/index.html'" style="cursor:pointer" title="Wishlist">
+                        <span style="font-size:22px; line-height:1;">❤️</span>
+                        <span class="cart-badge" id="wishlistBadgeDesktop">0</span>
+                    </div>
                     <div class="cart-icon-wrapper" onclick="window.location.href='pages/cart/index.html'"
                         style="cursor:pointer">
                         <img src="images/Svg/cart.svg">
@@ -76,9 +86,8 @@
         <div class="bd">
             <div class="cart">
                 <div class="box1">
-                    <h2 class="txt font"><b>Authentic Handmade Products from the Hills.</b></h2>
-                    <h2 class="txt font"><b>Discover unique handicraft, organic food, and traditional clothing crafted
-                            by skilled artisans.</b></h2>
+                    <h2 class="txt font"><b>Elevated Earth,<br>Crafted by Hills.</b></h2>
+                    <h2 class="txt font"><b>Discover soulful handicrafts, organic food, and traditional clothing made by skilled artisans of the Himalayas.</b></h2>
                 </div>
                 <div class="box2">
                     <button id="but" class="auto shop_now"><b>Shop Now</b><img
@@ -282,6 +291,22 @@
     </div>
 
     <button id="backToTop">↑</button>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bnav-item active">
+            <span>🏠</span><span>Home</span>
+        </a>
+        <a href="#cardContainer" class="bnav-item">
+            <span>🛍️</span><span>Shop</span>
+        </a>
+        <a href="pages/wishlist/index.html" class="bnav-item">
+            <span>❤️</span><span>Wishlist</span>
+        </a>
+        <a href="pages/cart/index.html" class="bnav-item">
+            <span>🛒</span><span>Cart</span>
+        </a>
+    </nav>
 
     <script src="script.js"></script>
 </body>

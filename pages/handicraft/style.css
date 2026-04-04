@@ -1,4 +1,6 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lucida Sans', sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { background: #fdf6ec; color: #333; }
 
 /* NAVBAR */
 .Head {
@@ -10,23 +12,11 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    flex-wrap: wrap;
-}
+.container { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
 
-#logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-}
-
+#logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 #logo img { width: 45px; height: 45px; border-radius: 12px; }
-#logo h2 { color: #8b5a2b; font-size: 20px; }
+#logo h2 { color: #8b5a2b; font-size: 20px; font-family: 'Playfair Display', serif; }
 
 .svg input {
     padding: 10px 18px;
@@ -36,9 +26,10 @@
     font-size: 14px;
     outline: none;
     transition: border 0.3s;
+    font-family: 'Poppins', sans-serif;
 }
 
-.svg input:focus { border-color: #8b5a2b; }
+.svg input:focus { border-color: #5d4037; }
 
 .back-btn {
     color: #5d4037;
@@ -51,18 +42,15 @@
     transition: all 0.3s;
 }
 
-.back-btn:hover {
-    background: #5d4037;
-    color: white;
-}
+.back-btn:hover { background: #5d4037; color: white; }
 
 .hero {
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
                 url('../../images/Png/handicrafts.png');
-    background-size: contain;    
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #3e2723;   
+    background-color: #3e2723;
     min-height: 40vh;
     display: flex;
     flex-direction: column;
@@ -73,20 +61,10 @@
     padding: 40px 20px;
 }
 
-.hero h1 {
-    font-size: 48px;
-    font-family: 'Lucida Sans', sans-serif;
-    font-weight: bold;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
+.hero h1 { font-size: 48px; font-family: 'Playfair Display', serif; font-weight: bold; letter-spacing: 2px; margin-bottom: 10px; }
 .hero p { font-size: 18px; opacity: 0.9; max-width: 500px; }
 
-.products-section {
-    padding: 40px 30px;
-    background: #fdf6ec;
-    min-height: 60vh;
-}
+.products-section { padding: 40px 30px; background: #fdf6ec; min-height: 60vh; }
 
 .info {
     display: flex;
@@ -99,27 +77,23 @@
     border-bottom: 2px solid #e0c9a6;
 }
 
-.info h2 { font-size: 24px; color: #3e2723; }
+.info h2 { font-size: 24px; color: #3e2723; font-family: 'Playfair Display', serif; }
 #productCount { color: #8b5a2b; font-size: 13px; margin-top: 4px; }
 
 #sortSelect {
     padding: 10px 15px;
     border-radius: 10px;
-    border: 1.5px solid #8b5a2b;
+    border: 1.5px solid #5d4037;
     background: white;
     color: #5d4037;
     font-size: 14px;
     cursor: pointer;
     outline: none;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* CARDS */
-.card_ {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-}
+.card_ { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; }
 
 .card {
     width: 280px;
@@ -130,15 +104,13 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-}
+.card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
 
 .show {
     height: 200px;
     background-size: cover;
     background-position: center;
+    background-color: #fdf6ec;
     transition: transform 0.3s ease;
 }
 
@@ -160,21 +132,17 @@
     cursor: pointer;
     font-size: 15px;
     font-weight: bold;
+    font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
+    transition: background 0.3s ease;
 }
 
 .add-cart-btn:hover { background: #8b5a2b; }
 
-.footer {
-    background: #5d4037;
-    color: white;
-    text-align: center;
-    padding: 25px;
-    font-size: 14px;
-}
+.footer { background: #5d4037; color: white; text-align: center; padding: 25px; font-size: 14px; }
 
 .toast {
     position: fixed;

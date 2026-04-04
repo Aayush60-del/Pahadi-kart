@@ -9,6 +9,19 @@ let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
 cartBadge.innerHTML = cartCount;
 if (cartCount > 0) cartBadge.style.display = 'flex';
 
+// Wishlist badge sync
+function updateWishlistBadge() {
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const count = wishlist.length;
+    ['wishlistBadge', 'wishlistBadgeDesktop'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = count;
+        el.style.display = count > 0 ? 'flex' : 'none';
+    });
+}
+updateWishlistBadge();
+
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileNav = document.getElementById('mobileNav');
 hamburgerBtn.addEventListener('click', () => {
@@ -125,13 +138,24 @@ let products = [];
 
 const cardContainer = document.getElementById('cardContainer');
 
+function getBadge(name) {
+    const n = name.toLowerCase();
+    if (n.includes('honey') || n.includes('organic') || n.includes('spice') || n.includes('tea') || n.includes('rhodo')) return ['organic', 'ORGANIC'];
+    if (n.includes('shawl') || n.includes('wool') || n.includes('pashmina') || n.includes('jacket')) return ['handwoven', 'HANDWOVEN'];
+    if (n.includes('candle') || n.includes('oil') || n.includes('soap')) return ['natural', 'NATURAL'];
+    if (n.includes('wood') || n.includes('craft') || n.includes('artifact') || n.includes('copper') || n.includes('vessel') || n.includes('bowl')) return ['handmade', 'HANDMADE'];
+    return ['pahadi', 'PAHADI'];
+}
+
 function showCards(filteredProducts) {
     cardContainer.innerHTML = '';
     filteredProducts.forEach(function (product) {
+        const [badgeClass, badgeLabel] = getBadge(product.name);
         cardContainer.innerHTML += `
             <div class="card">
                 <div class="show" style="background-image: url('${product.image}')"></div>
                 <button class="wishlist-btn">🤍</button>
+                <span class="card-badge ${badgeClass}">${badgeLabel}</span>
                 <h2>${product.name}</h2>
                 <h2>${product.rating}</h2>
                 <h2>${product.price}</h2>

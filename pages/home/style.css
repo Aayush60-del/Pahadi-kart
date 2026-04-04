@@ -1,5 +1,6 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lucida Sans', sans-serif; }
-* { font-family: 'Poppins', sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { background: #fdf6ec; color: #333; }
 
 .Head {
     background: white;
@@ -14,32 +15,33 @@
 
 #logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 #logo img { width: 45px; height: 45px; border-radius: 12px; }
-#logo h2 { color: rgb(156, 96, 17); font-size: 20px; }
+#logo h2 { color: #8b5a2b; font-size: 20px; font-family: 'Playfair Display', serif; }
 
 .svg input {
     padding: 10px 18px;
-    border: 1.5px solid #ff9800;
+    border: 1.5px solid #d4a96a;
     border-radius: 25px;
     width: 280px;
     font-size: 14px;
     outline: none;
     transition: border 0.3s;
+    font-family: 'Poppins', sans-serif;
 }
 
-.svg input:focus { border-color: #e65100; }
+.svg input:focus { border-color: #5d4037; }
 
 .back-btn {
-    color: #e65100;
+    color: #5d4037;
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
     padding: 8px 16px;
-    border: 2px solid #e65100;
+    border: 2px solid #5d4037;
     border-radius: 20px;
     transition: all 0.3s;
 }
 
-.back-btn:hover { background: #e65100; color: white; }
+.back-btn:hover { background: #5d4037; color: white; }
 
 .hero {
     background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
@@ -56,10 +58,10 @@
     padding: 40px 20px;
 }
 
-.hero h1 { font-size: 48px; font-family: 'Lucida Sans', sans-serif; font-weight: bold; letter-spacing: 2px; margin-bottom: 10px; }
+.hero h1 { font-size: 48px; font-family: 'Playfair Display', serif; font-weight: bold; letter-spacing: 2px; margin-bottom: 10px; }
 .hero p { font-size: 18px; opacity: 0.9; max-width: 500px; }
 
-.products-section { padding: 40px 30px; background: #fff3e0; min-height: 60vh; }
+.products-section { padding: 40px 30px; background: #fdf6ec; min-height: 60vh; }
 
 .info {
     display: flex;
@@ -69,21 +71,22 @@
     flex-wrap: wrap;
     gap: 10px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #ffcc80;
+    border-bottom: 2px solid #e0c9a6;
 }
 
-.info h2 { font-size: 24px; color: #bf360c; }
-#productCount { color: #e65100; font-size: 13px; margin-top: 4px; }
+.info h2 { font-size: 24px; color: #3e2723; font-family: 'Playfair Display', serif; }
+#productCount { color: #8b5a2b; font-size: 13px; margin-top: 4px; }
 
 #sortSelect {
     padding: 10px 15px;
     border-radius: 10px;
-    border: 1.5px solid #e65100;
+    border: 1.5px solid #5d4037;
     background: white;
-    color: #e65100;
+    color: #5d4037;
     font-size: 14px;
     cursor: pointer;
     outline: none;
+    font-family: 'Poppins', sans-serif;
 }
 
 .card_ { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; }
@@ -104,28 +107,29 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: #f5efe6;
+    background-color: #fdf6ec;
     transition: transform 0.3s ease;
 }
 
 .card:hover .show { transform: scale(1.03); }
 
 .card-info { padding: 15px; }
-.card-info h2 { font-size: 16px; color: #bf360c; margin-bottom: 5px; }
+.card-info h2 { font-size: 16px; color: #3e2723; margin-bottom: 5px; }
 .card-info .rating { font-size: 13px; color: #f57c00; margin-bottom: 3px; }
-.card-info .price { font-size: 18px; font-weight: bold; color: #e65100; }
+.card-info .price { font-size: 18px; font-weight: bold; color: #5d4037; }
 
 .add-cart-btn {
     width: calc(100% - 30px);
     margin: 0 15px 15px;
     padding: 13px;
-    background: #e65100;
+    background: #5d4037;
     color: white;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     font-size: 15px;
     font-weight: bold;
+    font-family: 'Poppins', sans-serif;
     transition: background 0.3s ease;
     display: flex;
     justify-content: center;
@@ -133,9 +137,9 @@
     gap: 8px;
 }
 
-.add-cart-btn:hover { background: #ff6d00; }
+.add-cart-btn:hover { background: #8b5a2b; }
 
-.footer { background: #e65100; color: white; text-align: center; padding: 25px; font-size: 14px; }
+.footer { background: #5d4037; color: white; text-align: center; padding: 25px; font-size: 14px; }
 
 .toast {
     position: fixed;

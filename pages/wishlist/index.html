@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - PahadiKart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../../images/Png/india.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="Head">
+        <div class="container">
+            <div id="logo" onclick="window.location.href='../../index.html'">
+                <img src="../../images/Png/india.png">
+                <h2>NeoBharat</h2>
+            </div>
+            <div class="nav-actions">
+                <a href="../../index.html" class="back-btn">← Back to Home</a>
+                <div class="cart-icon-wrapper" onclick="window.location.href='../cart/index.html'" title="Go to Cart">
+                    <img src="../../images/Svg/cart.svg" style="width:26px; height:26px;">
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO BANNER -->
+    <div class="wishlist-hero">
+        <div class="wishlist-hero-content">
+            <h1>❤️ Your Wishlist</h1>
+            <p>Items you love, saved for later</p>
+        </div>
+    </div>
+
+    <!-- WISHLIST CONTENT -->
+    <div class="wishlist-container">
+
+        <!-- Summary Bar -->
+        <div class="wishlist-info" id="wishlistInfo" style="display:none;">
+            <div>
+                <h2 id="wishlistTitle">Your Wishlist</h2>
+                <p id="wishlistCount" class="count-text">0 items saved</p>
+            </div>
+            <div class="wishlist-actions">
+                <button class="move-all-btn" id="moveAllBtn">
+                    <img src="../../images/Svg/cart.svg" style="width:18px; filter:brightness(0) invert(1);">
+                    Move All to Cart
+                </button>
+                <button class="clear-btn" id="clearBtn">🗑️ Clear All</button>
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="card_" id="wishlistGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-wishlist" id="emptyState" style="display:none;">
+            <div class="empty-icon">💔</div>
+            <h2>Your Wishlist is Empty</h2>
+            <p>Looks like you haven't saved anything yet. Explore our collection and heart what you love!</p>
+            <button onclick="window.location.href='../../index.html'">🛍️ Start Shopping</button>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2026 PahadiKart. Made with ❤️ for artisans.</p>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
