@@ -9,68 +9,30 @@ script.onload = function() {
 document.head.appendChild(script);
 
 function initializeApp() {
+    const cartBadge = document.getElementById('cartBadge');
     const toast = document.getElementById('toast');
-    let products = [];
-    let currentUser = null;
 
-    // Initialize UI
-    function initializeUI() {
-        updateCartBadge();
-        updateWishlistBadge();
-        setupEventListeners();
-        fetchProducts();
-        checkExistingSession();
-    }
-
-    // Update cart badge from localStorage and Supabase
-    async function updateCartBadge() {
-        try {
-            const { data: { session } } = await window.supabaseClient.auth.getSession();
-            
-            if (session) {
-                // Get actual cart count from Supabase
-                const { data: cartItems, error } = await window.supabaseClient
-                    .from('cart')
-                    .select('quantity')
-                    .eq('user_id', session.user.id);
-                
-                if (!error && cartItems) {
-                    const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                    setCartBadgeUI(cartCount);
-                    localStorage.setItem('cartCount', cartCount);
-                }
-            } else {
-                // Use localStorage count for non-logged in users
-                const cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
-                setCartBadgeUI(cartCount);
-            }
-        } catch (err) {
-            console.error('Cart badge update error:', err);
-            // Fallback to localStorage
-            const cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
-            setCartBadgeUI(cartCount);
-        }
-    }
-
-    function setCartBadgeUI(count) {
+    let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+    
+    function updateCartBadge() {
         const mobileBadge = document.getElementById('cartBadge');
         const desktopBadge = document.getElementById('cartBadgeDesktop');
         
         if (mobileBadge) {
-            mobileBadge.innerHTML = count;
-            mobileBadge.style.display = count > 0 ? 'flex' : 'none';
+            mobileBadge.innerHTML = cartCount;
+            mobileBadge.style.display = cartCount > 0 ? 'flex' : 'none';
         }
         if (desktopBadge) {
-            desktopBadge.innerHTML = count;
-            desktopBadge.style.display = count > 0 ? 'flex' : 'none';
+            desktopBadge.innerHTML = cartCount;
+            desktopBadge.style.display = cartCount > 0 ? 'flex' : 'none';
         }
     }
+    updateCartBadge();
 
-    // Update wishlist badge
+    // Wishlist badge sync
     function updateWishlistBadge() {
         const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         const count = wishlist.length;
-        
         ['wishlistBadge', 'wishlistBadgeDesktop'].forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
@@ -78,262 +40,185 @@ function initializeApp() {
             el.style.display = count > 0 ? 'flex' : 'none';
         });
     }
+    updateWishlistBadge();
 
-    // Setup all event listeners
-    function setupEventListeners() {
-        // Mobile navigation
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        if (hamburgerBtn && mobileNav) {
-            hamburgerBtn.addEventListener('click', () => {
-                mobileNav.classList.toggle('open');
-                hamburgerBtn.classList.toggle('active');
-            });
-        }
-
-        // Login modal
-        setupLoginModal();
-
-        // Category filters
-        setupCategoryFilters();
-
-        // Search functionality
-        setupSearch();
-
-        // Subscribe button
-        setupSubscribe();
-
-        // Navigation buttons
-        setupNavigation();
-
-        // Scroll animations
-        setupScrollAnimations();
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    if (hamburgerBtn && mobileNav) {
+        hamburgerBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('open');
+            hamburgerBtn.classList.toggle('active');
+        });
     }
 
-    // Login modal setup
-    function setupLoginModal() {
-        const loginModal = document.getElementById('loginModal');
-        const overlay = document.getElementById('overlay');
-        const modalClose = document.getElementById('modalClose');
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    });
+    fadeElements.forEach(function (element) {
+        observer.observe(element);
+    });
 
-        // Open login modal
-        const allLoginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
-        allLoginBtns.forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                // Skip if this is the logout button
-                if (btn.textContent.includes('Login') === false && btn.querySelector('h3')?.textContent !== 'Login') {
+    const loginModal = document.getElementById('loginModal');
+    const overlay = document.getElementById('overlay');
+    const modalClose = document.getElementById('modalClose');
+
+    const allLoginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
+    allLoginBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (loginModal && overlay) {
+                loginModal.classList.add('active');
+                overlay.classList.add('active');
+            }
+        });
+    });
+
+    if (modalClose) {
+        modalClose.addEventListener('click', function () {
+            if (loginModal && overlay) {
+                loginModal.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', function () {
+            if (loginModal && overlay) {
+                loginModal.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+    }
+
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', async function () {
+            const emailInput = document.getElementById('emailInput');
+            const passInput = document.getElementById('passInput');
+            
+            if (!emailInput || !passInput) {
+                alert('Login form not found!');
+                return;
+            }
+
+            const email = emailInput.value;
+            const password = passInput.value;
+
+            try {
+                const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    alert('❌ ' + error.message);
                     return;
                 }
-                
+
                 if (loginModal && overlay) {
-                    loginModal.classList.add('active');
-                    overlay.classList.add('active');
+                    loginModal.classList.remove('active');
+                    overlay.classList.remove('active');
                 }
-            });
+                updateAuthUI(data.user);
+                if (toast) {
+                    toast.innerHTML = '✅ Login successful!';
+                    toast.style.backgroundColor = '#4caf50';
+                    toast.style.display = 'flex';
+                    setTimeout(() => toast.style.display = 'none', 2000);
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                alert('❌ Login failed. Please try again.');
+            }
         });
-
-        // Close modal
-        if (modalClose) {
-            modalClose.addEventListener('click', function () {
-                closeModal();
-            });
-        }
-        
-        if (overlay) {
-            overlay.addEventListener('click', function () {
-                closeModal();
-            });
-        }
-
-        // Login functionality
-        const loginBtn = document.getElementById('loginBtn');
-        if (loginBtn) {
-            loginBtn.addEventListener('click', handleLogin);
-        }
-
-        // Signup functionality
-        const signupLink = document.querySelector('.signup-link');
-        if (signupLink) {
-            signupLink.addEventListener('click', handleSignup);
-        }
     }
 
-    function closeModal() {
-        const loginModal = document.getElementById('loginModal');
-        const overlay = document.getElementById('overlay');
-        if (loginModal && overlay) {
-            loginModal.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-    }
-
-    async function handleLogin() {
-        const emailInput = document.getElementById('emailInput');
-        const passInput = document.getElementById('passInput');
-        
-        if (!emailInput || !passInput) {
-            showToast('Login form not found!', '#e53935');
-            return;
-        }
-
-        const email = emailInput.value.trim();
-        const password = passInput.value;
-
-        if (!email || !password) {
-            showToast('Please enter email and password', '#e53935');
-            return;
-        }
-
-        try {
-            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showToast('Login failed: ' + error.message, '#e53935');
+    const signupLink = document.querySelector('.signup-link');
+    if (signupLink) {
+        signupLink.addEventListener('click', async function () {
+            const emailInput = document.getElementById('emailInput');
+            const passInput = document.getElementById('passInput');
+            
+            if (!emailInput || !passInput) {
+                alert('Signup form not found!');
                 return;
             }
 
-            currentUser = data.user;
-            closeModal();
-            updateAuthUI(data.user);
-            updateCartBadge(); // Refresh cart count after login
-            showToast('Login successful!', '#4caf50');
-            
-            // Clear form
-            emailInput.value = '';
-            passInput.value = '';
-            
-        } catch (err) {
-            console.error('Login error:', err);
-            showToast('Login failed. Please try again.', '#e53935');
-        }
-    }
+            const email = emailInput.value;
+            const password = passInput.value;
 
-    async function handleSignup() {
-        const emailInput = document.getElementById('emailInput');
-        const passInput = document.getElementById('passInput');
-        
-        if (!emailInput || !passInput) {
-            showToast('Signup form not found!', '#e53935');
-            return;
-        }
-
-        const email = emailInput.value.trim();
-        const password = passInput.value;
-
-        if (!email || !password) {
-            showToast('Please enter email and password', '#e53935');
-            return;
-        }
-
-        try {
-            const { data, error } = await window.supabaseClient.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showToast('Signup failed: ' + error.message, '#e53935');
+            if (!email || !password) {
+                alert('Email aur password daalo!');
                 return;
             }
 
-            closeModal();
-            showToast('Account created! Please check your email to verify.', '#4caf50');
-            
-            // Clear form
-            emailInput.value = '';
-            passInput.value = '';
-            
-        } catch (err) {
-            console.error('Signup error:', err);
-            showToast('Signup failed. Please try again.', '#e53935');
-        }
+            try {
+                const { data, error } = await window.supabaseClient.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    alert('❌ ' + error.message);
+                    return;
+                }
+
+                if (loginModal && overlay) {
+                    loginModal.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+                if (toast) {
+                    toast.innerHTML = '🎉 Account created!';
+                    toast.style.backgroundColor = '#4caf50';
+                    toast.style.display = 'flex';
+                    setTimeout(() => toast.style.display = 'none', 2000);
+                }
+            } catch (err) {
+                console.error('Signup error:', err);
+                alert('❌ Signup failed. Please try again.');
+            }
+        });
     }
 
     function updateAuthUI(user) {
-        const loginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
-        
-        if (user && loginBtns) {
-            loginBtns.forEach(btn => {
-                const h3 = btn.querySelector('h3');
-                if (h3) {
-                    h3.textContent = user.email.split('@')[0];
-                    btn.onclick = async function () {
-                        await handleLogout();
-                    };
+        const loginBtn = document.querySelector('.head_sec button');
+        if (user && loginBtn) {
+            loginBtn.innerHTML = `<img src="images/Svg/admin.svg"><h3>${user.email.split('@')[0]}</h3>`;
+            loginBtn.onclick = async function () {
+                try {
+                    await window.supabaseClient.auth.signOut();
+                    loginBtn.innerHTML = `<img src="images/Svg/admin.svg"><h3>Login</h3>`;
+                    loginBtn.onclick = null;
+                    if (toast) {
+                        toast.innerHTML = '👋 Logged out!';
+                        toast.style.backgroundColor = '#e53935';
+                        toast.style.display = 'flex';
+                        setTimeout(() => toast.style.display = 'none', 2000);
+                    }
+                } catch (err) {
+                    console.error('Logout error:', err);
                 }
-            });
+            };
         }
     }
 
-    async function handleLogout() {
-        try {
-            await window.supabaseClient.auth.signOut();
-            currentUser = null;
-            
-            // Reset login buttons
-            const loginBtns = document.querySelectorAll('.head_sec button, .mobile-nav button');
-            loginBtns.forEach(btn => {
-                const h3 = btn.querySelector('h3');
-                if (h3) {
-                    h3.textContent = 'Login';
-                    btn.onclick = null;
-                }
-            });
-            
-            updateCartBadge(); // Refresh cart count
-            showToast('Logged out successfully!', '#e53935');
-        } catch (err) {
-            console.error('Logout error:', err);
-            showToast('Logout failed', '#e53935');
+    // Check for existing session
+    window.supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+            updateAuthUI(session.user);
         }
-    }
+    }).catch(err => {
+        console.error('Session check error:', err);
+    });
 
-    // Check existing session
-    async function checkExistingSession() {
-        try {
-            const { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (session) {
-                currentUser = session.user;
-                updateAuthUI(session.user);
-                updateCartBadge();
-            }
-        } catch (err) {
-            console.error('Session check error:', err);
-        }
-    }
+    let products = [];
+    const cardContainer = document.getElementById('cardContainer');
 
-    // Fetch products
-    async function fetchProducts() {
-        const cardContainer = document.getElementById('cardContainer');
-        if (!cardContainer) return;
-
-        try {
-            // Show loading state
-            cardContainer.innerHTML = '<div class="loading">Loading products...</div>';
-            
-            const { data, error } = await window.supabaseClient
-                .from('products')
-                .select('*');
-
-            if (error) {
-                console.error('Supabase Error:', error);
-                cardContainer.innerHTML = '<div class="error">Failed to load products. Please try again later.</div>';
-                return;
-            }
-
-            products = data || [];
-            showCards(products);
-            
-        } catch (err) {
-            console.error('Fetch products error:', err);
-            cardContainer.innerHTML = '<div class="error">Failed to load products. Please check your connection.</div>';
-        }
-    }
-
-    // Get product badge
     function getBadge(name) {
         const n = name.toLowerCase();
         if (n.includes('honey') || n.includes('organic') || n.includes('spice') || n.includes('tea') || n.includes('rhodo')) return ['organic', 'ORGANIC'];
@@ -343,9 +228,7 @@ function initializeApp() {
         return ['pahadi', 'PAHADI'];
     }
 
-    // Show products
     function showCards(filteredProducts) {
-        const cardContainer = document.getElementById('cardContainer');
         if (!cardContainer) return;
         
         cardContainer.innerHTML = '';
@@ -359,37 +242,80 @@ function initializeApp() {
             cardContainer.innerHTML += `
                 <div class="card">
                     <div class="show" style="background-image: url('${product.image || 'images/placeholder.jpg'}')"></div>
-                    <button class="wishlist-btn" data-name="${product.name}"></button>
+                    <button class="wishlist-btn">🤍</button>
                     <span class="card-badge ${badgeClass}">${badgeLabel}</span>
                     <h2>${product.name || 'Unknown Product'}</h2>
-                    <h2>${product.rating || '4.5'} stars</h2>
-                    <h2>${product.price || 'Price not available'}</h2>
-                    <button class="add-cart-btn" data-name="${product.name}" data-price="${product.price || '0'}" data-image="${product.image || ''}">
+                    <h2>${product.rating || '⭐ 4.5'}</h2>
+                    <h2>${product.price || '₹0'}</h2>
+                    <button class="add-cart-btn flex_">
                         <img src="images/Svg/cart.svg">
                         <h4>Add to cart</h4>
                     </button>
                 </div>
             `;
         });
-        
         attachCartButtons();
         attachWishlistButtons();
     }
 
-    // Attach cart buttons
+    async function fetchProducts() {
+        try {
+            const { data, error } = await window.supabaseClient
+                .from('products')
+                .select('*');
+
+            if (error) {
+                console.log('Supabase Error:', error);
+                if (cardContainer) {
+                    cardContainer.innerHTML = '<div class="error-message">Failed to load products. Please try again later.</div>';
+                }
+                return;
+            }
+
+            products = data || [];
+            showCards(products);
+        } catch (err) {
+            console.error('Fetch products error:', err);
+            if (cardContainer) {
+                cardContainer.innerHTML = '<div class="error-message">Failed to load products. Please check your connection.</div>';
+            }
+        }
+    }
+
+    fetchProducts();
+
     function attachCartButtons() {
         const addToCartBtns = document.querySelectorAll('.add-cart-btn');
         addToCartBtns.forEach(function (button) {
             button.addEventListener('click', async function () {
-                const name = this.dataset.name;
-                const price = this.dataset.price;
-                const image = this.dataset.image;
+                const card = button.closest('.card');
+                if (!card) return;
+                
+                const nameElement = card.querySelectorAll('h2')[0];
+                const ratingElement = card.querySelectorAll('h2')[1];
+                const priceElement = card.querySelectorAll('h2')[2];
+                const imageElement = card.querySelector('.show');
+                
+                if (!nameElement || !priceElement || !imageElement) {
+                    alert('Product information not found!');
+                    return;
+                }
+
+                const name = nameElement.innerHTML;
+                const rating = ratingElement ? ratingElement.innerHTML : '⭐ 4.5';
+                const price = priceElement.innerHTML;
+                const image = imageElement.style.backgroundImage.slice(5, -2);
 
                 try {
                     const { data: { session } } = await window.supabaseClient.auth.getSession();
 
                     if (!session) {
-                        showToast('Please login to add items to cart!', '#e53935');
+                        if (toast) {
+                            toast.innerHTML = '⚠️ Please login to add items to cart!';
+                            toast.style.backgroundColor = '#e53935';
+                            toast.style.display = 'flex';
+                            setTimeout(() => toast.style.display = 'none', 2000);
+                        }
                         return;
                     }
 
@@ -419,41 +345,56 @@ function initializeApp() {
                             }]);
                     }
 
-                    updateCartBadge(); // Update badge from Supabase
-                    showToast('Added to cart!', '#4caf50');
+                    cartCount++;
+                    updateCartBadge();
+                    localStorage.setItem('cartCount', cartCount);
                     
+                    if (toast) {
+                        toast.innerHTML = '✅ Added to cart!';
+                        toast.style.backgroundColor = '#4caf50';
+                        toast.style.display = 'flex';
+                        setTimeout(() => toast.style.display = 'none', 2000);
+                    }
                 } catch (err) {
                     console.error('Add to cart error:', err);
-                    showToast('Failed to add to cart', '#e53935');
+                    if (toast) {
+                        toast.innerHTML = '❌ Failed to add to cart!';
+                        toast.style.backgroundColor = '#e53935';
+                        toast.style.display = 'flex';
+                        setTimeout(() => toast.style.display = 'none', 2000);
+                    }
                 }
             });
         });
     }
 
-    // Attach wishlist buttons
     function attachWishlistButtons() {
         const wishlistBtns = document.querySelectorAll('.wishlist-btn');
         wishlistBtns.forEach(function (btn) {
-            const productName = btn.dataset.name;
-            const saved = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const card = btn.closest('.card');
+            if (!card) return;
             
+            const nameElement = card.querySelector('h2');
+            if (!nameElement) return;
+            
+            const productName = nameElement.innerHTML;
+
+            const saved = JSON.parse(localStorage.getItem('wishlist')) || [];
             if (saved.includes(productName)) {
                 btn.classList.add('liked');
-                btn.innerHTML = 'Heart';
-            } else {
-                btn.innerHTML = 'Heart';
+                btn.innerHTML = '❤️';
             }
 
             btn.addEventListener('click', function () {
                 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
                 if (btn.classList.contains('liked')) {
                     btn.classList.remove('liked');
+                    btn.innerHTML = '🤍';
                     wishlist = wishlist.filter(item => item !== productName);
-                    showToast('Removed from wishlist', '#e53935');
                 } else {
                     btn.classList.add('liked');
+                    btn.innerHTML = '❤️';
                     wishlist.push(productName);
-                    showToast('Added to wishlist', '#4caf50');
                 }
                 localStorage.setItem('wishlist', JSON.stringify(wishlist));
                 updateWishlistBadge();
@@ -461,35 +402,130 @@ function initializeApp() {
         });
     }
 
-    // Category filters
-    function setupCategoryFilters() {
-        const navFilters = document.querySelectorAll('.nav-filter');
-        navFilters.forEach(function (link) {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const category = link.dataset.category;
-                if (!category || category === 'all') {
-                    showCards(products);
-                } else {
-                    const filtered = products.filter(function (p) {
-                        return p.category === category;
-                    });
-                    showCards(filtered);
-                }
-                // Close mobile nav
-                const mobileNav = document.getElementById('mobileNav');
-                const hamburgerBtn = document.getElementById('hamburgerBtn');
-                if (mobileNav && hamburgerBtn) {
-                    mobileNav.classList.remove('open');
-                    hamburgerBtn.classList.remove('active');
-                }
-            });
+    const navFilters = document.querySelectorAll('.nav-filter');
+    navFilters.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const category = link.dataset.category;
+            if (!category || category === 'all') {
+                showCards(products);
+            } else {
+                const filtered = products.filter(function (p) {
+                    return p.category === category;
+                });
+                showCards(filtered);
+            }
+            if (mobileNav && hamburgerBtn) {
+                mobileNav.classList.remove('open');
+                hamburgerBtn.classList.remove('active');
+            }
         });
+    });
 
-        // Category cards
-        const categoryCards = document.querySelectorAll('.category-card');
-        categoryCards.forEach(function (card) {
-            card.addEventListener('click', function () {
+    const subscribeBtn = document.querySelector('.foot4-span button');
+    const emailInput = document.getElementById('f4');
+    if (subscribeBtn && emailInput) {
+        subscribeBtn.addEventListener('click', function () {
+            let mail = emailInput.value.trim();
+            if (mail === "") {
+                if (toast) {
+                    toast.innerHTML = '❌ Email is empty!';
+                    toast.style.backgroundColor = '#e53935';
+                    toast.style.display = 'flex';
+                    setTimeout(function () { toast.style.display = 'none'; }, 2000);
+                }
+                return;
+            }
+            if (!mail.includes('@')) {
+                if (toast) {
+                    toast.innerHTML = '❌ Invalid email!';
+                    toast.style.backgroundColor = '#e53935';
+                    toast.style.display = 'flex';
+                    setTimeout(function () { toast.style.display = 'none'; }, 2000);
+                }
+                return;
+            }
+            if (toast) {
+                toast.innerHTML = '🎉 Subscribed successfully!';
+                toast.style.backgroundColor = '#4caf50';
+                toast.style.display = 'flex';
+            }
+            emailInput.value = '';
+            setTimeout(function () { 
+                if (toast) toast.style.display = 'none'; 
+            }, 2000);
+        });
+    }
+
+    const exploreBtn = document.querySelector('.context button');
+    if (exploreBtn && toast) {
+        exploreBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            toast.style.backgroundColor = '#3e2723';
+            toast.style.padding = '20px 30px';
+            toast.style.borderRadius = '15px';
+            toast.style.fontSize = '13px';
+            toast.style.lineHeight = '1.8';
+            toast.style.flexDirection = 'column';
+            toast.style.textAlign = 'left';
+            toast.style.maxWidth = '320px';
+            toast.style.color = 'white';
+            toast.innerHTML = `
+                <b style="font-size:16px; margin-bottom:8px;">🏔️ Our Artisan Community</b>
+                <span>✅ <b>500+</b> skilled craftspeople</span>
+                <span>🏡 From remote Uttarakhand villages</span>
+                <span>🎨 Preserving <b>200-year-old</b> crafts</span>
+                <span>💰 Fair wages & sustainable income</span>
+                <span>❤️ Every purchase = direct support</span>
+            `;
+            toast.style.display = 'flex';
+            setTimeout(function () {
+                if (toast) {
+                    toast.style.display = 'none';
+                    toast.style.backgroundColor = '#4caf50';
+                    toast.innerHTML = '✅ Added to cart!';
+                    toast.style.flexDirection = 'row';
+                    toast.style.padding = '12px 25px';
+                    toast.style.fontSize = '15px';
+                    toast.style.maxWidth = 'none';
+                    toast.style.textAlign = 'center';
+                }
+            }, 4000);
+        });
+    }
+
+    const searchInput = document.querySelector(".src");
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function () {
+            let searchText = searchInput.value.toLowerCase().trim();
+            if (searchText === "") {
+                showCards(products);
+                return;
+            }
+            const filtered = products.filter(function (product) {
+                return product.name && product.name.toLowerCase().includes(searchText);
+            });
+            showCards(filtered);
+        });
+    }
+
+    const viewAll = document.querySelector(".view_all");
+    if (viewAll) {
+        viewAll.addEventListener('click', function () {
+            showCards(products);
+            if (mobileNav && hamburgerBtn) {
+                mobileNav.classList.remove('open');
+                hamburgerBtn.classList.remove('active');
+            }
+        });
+    }
+
+    const categoryCards = document.querySelectorAll('.category-card');
+    categoryCards.forEach(function (card) {
+        let clickTimer = null;
+
+        card.addEventListener('click', function () {
+            clickTimer = setTimeout(function () {
                 const category = card.dataset.category;
                 if (!category || category === 'all') {
                     showCards(products);
@@ -501,131 +537,62 @@ function initializeApp() {
                 if (cardContainer) {
                     cardContainer.scrollIntoView({ behavior: 'smooth' });
                 }
-            });
+            }, 250);
+        });
+
+        card.addEventListener('dblclick', function () {
+            clearTimeout(clickTimer);
+            const category = card.dataset.category;
+            if (category === 'handicraft') window.location.href = 'pages/handicraft/index.html';
+            if (category === 'organic') window.location.href = 'pages/organic/index.html';
+            if (category === 'clothing') window.location.href = 'pages/clothing/index.html';
+            if (category === 'home') window.location.href = 'pages/home/index.html';
+        });
+    });
+
+    const Shop = document.querySelector(".shop_now");
+    const Expo = document.querySelector(".Explore");
+
+    if (Shop) {
+        Shop.addEventListener('click', function () {
+            const cardContainer = document.getElementById('cardContainer');
+            if (cardContainer) {
+                cardContainer.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     }
 
-    // Search functionality
-    function setupSearch() {
-        const searchInput = document.querySelector('.src');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function () {
-                let searchText = searchInput.value.toLowerCase().trim();
-                if (searchText === "") {
-                    showCards(products);
-                    return;
-                }
-                const filtered = products.filter(function (product) {
-                    return product.name && product.name.toLowerCase().includes(searchText);
-                });
-                showCards(filtered);
-            });
-        }
-    }
-
-    // Subscribe functionality
-    function setupSubscribe() {
-        const subscribeBtn = document.querySelector('.subscribeBtn');
-        const emailInput = document.getElementById('f4');
-        if (subscribeBtn && emailInput) {
-            subscribeBtn.addEventListener('click', function () {
-                let mail = emailInput.value.trim();
-                if (mail === "") {
-                    showToast('Email is empty!', '#e53935');
-                    return;
-                }
-                if (!mail.includes('@')) {
-                    showToast('Invalid email!', '#e53935');
-                    return;
-                }
-                showToast('Subscribed successfully!', '#4caf50');
-                emailInput.value = '';
-            });
-        }
-    }
-
-    // Navigation buttons
-    function setupNavigation() {
-        const viewAll = document.querySelector('.view_all');
-        if (viewAll) {
-            viewAll.addEventListener('click', function () {
-                showCards(products);
-                const cardContainer = document.getElementById('cardContainer');
-                if (cardContainer) {
-                    cardContainer.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
-
-        const Shop = document.querySelector('.shop_now');
-        const Expo = document.querySelector('.Explore');
-
-        if (Shop) {
-            Shop.addEventListener('click', function () {
-                const cardContainer = document.getElementById('cardContainer');
-                if (cardContainer) {
-                    cardContainer.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
-
-        if (Expo) {
-            Expo.addEventListener('click', function () {
-                const cardContainer = document.getElementById('cardContainer');
-                if (cardContainer) {
-                    cardContainer.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
-
-        const logo = document.getElementById('logo');
-        if (logo) {
-            logo.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
-        // Back to top button
-        const backToTop = document.getElementById('backToTop');
-        if (backToTop) {
-            backToTop.addEventListener('click', function () {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            window.addEventListener('scroll', function () {
-                if (window.scrollY > 300) {
-                    backToTop.style.display = 'block';
-                } else {
-                    backToTop.style.display = 'none';
-                }
-            });
-        }
-    }
-
-    // Scroll animations
-    function setupScrollAnimations() {
-        const fadeElements = document.querySelectorAll('.fade-in');
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        });
-        fadeElements.forEach(function (element) {
-            observer.observe(element);
+    if (Expo) {
+        Expo.addEventListener('click', function () {
+            const cardContainer = document.getElementById('cardContainer');
+            if (cardContainer) {
+                cardContainer.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     }
 
-    // Toast notification
-    function showToast(message, color = '#4caf50') {
-        if (!toast) return;
-        toast.innerHTML = message;
-        toast.style.backgroundColor = color;
-        toast.style.display = 'flex';
-        setTimeout(() => toast.style.display = 'none', 3000);
+    const logo = document.getElementById('logo');
+    if (logo) {
+        logo.addEventListener('click', () => {
+            const boody = document.querySelector('.boody');
+            if (boody) {
+                boody.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     }
 
-    // Initialize everything
-    initializeUI();
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        backToTop.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+    }
 }
